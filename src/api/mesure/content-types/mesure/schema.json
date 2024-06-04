@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "mesures",
+  "info": {
+    "singularName": "mesure",
+    "pluralName": "mesures",
+    "displayName": "Mesure"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mesure": {
+      "type": "dynamiczone",
+      "components": [
+        "bsc.mesure-bsc"
+      ]
+    },
+    "course": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::course.course"
+    }
+  }
+}

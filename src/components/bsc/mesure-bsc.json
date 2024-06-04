@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_bsc_mesure_bscs",
+  "info": {
+    "displayName": "MesureBsc"
+  },
+  "options": {},
+  "attributes": {
+    "composition": {
+      "type": "enumeration",
+      "enum": [
+        "US",
+        "UM2",
+        "UM3"
+      ]
+    },
+    "numMaterial": {
+      "type": "string"
+    },
+    "questionnaireDistribuess": {
+      "type": "integer"
+    },
+    "questionnaireVides": {
+      "type": "integer"
+    },
+    "questionnaireInexploitables": {
+      "type": "integer"
+    },
+    "questionnaireExploitables": {
+      "type": "integer"
+    },
+    "retardDepart": {
+      "type": "integer"
+    },
+    "retardArrive": {
+      "type": "integer"
+    }
+  }
+}
