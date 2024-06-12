@@ -1,9 +1,8 @@
-version: '3'
 services:
-  api-gestionEnqueteur:
+  api:
     container_name: api-gestionEnqueteur
     build: .
-    image: api-gestionEnqueteur:latest
+    image: api:latest
     restart: unless-stopped
     env_file: .env
     environment:
@@ -27,13 +26,13 @@ services:
     ports:
       - '1337:1337'
     networks:
-      - api-gestionEnqueteur
+      - strapinetwork
     depends_on:
-      - api-gestionEnqueteurDB
+      - mariadb
       
-  api-gestionenqueteurDB:
+  mariadb:
     container_name: api-gestionenqueteurDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
+    # platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     env_file: .env
     image: mariadb:latest
@@ -49,9 +48,9 @@ services:
     ports:
       - '3306:3306'
     networks:
-      - api-gestionenqueteur
+      - strapinetwork
       
-  api-gestionenqueteurAdminer:
+  adminer:
     container_name: api-gestionenqueteurAdminer
     image: adminer
     restart: unless-stopped
@@ -60,14 +59,14 @@ services:
     environment:
       - ADMINER_DEFAULT_SERVER=api-gestionenqueteurDB
     networks:
-      - api-gestionenqueteur
+      - strapinetwork
     depends_on:
-      - api-gestionEnqueteurDB
+      - mariadb
 
 volumes:
   api-gestionenqueteur-data:
 
 networks:
-  api-gestionEnqueteur:
+  strapinetwork:
     name: Api-gestionenqueteur
     driver: bridge
