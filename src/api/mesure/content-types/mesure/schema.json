@@ -1,10 +1,11 @@
 {
-  "kind": "singleType",
+  "kind": "collectionType",
   "collectionName": "mesures",
   "info": {
     "singularName": "mesure",
     "pluralName": "mesures",
-    "displayName": "Mesure"
+    "displayName": "Mesure",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -14,13 +15,15 @@
     "mesure": {
       "type": "dynamiczone",
       "components": [
-        "bsc.mesure-bsc"
+        "bsc.mesure-bsc",
+        "bsc.mesure-test"
       ]
     },
     "course": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::course.course"
+      "target": "api::course.course",
+      "inversedBy": "mesure"
     }
   }
 }

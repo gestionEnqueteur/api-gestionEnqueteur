@@ -4,7 +4,8 @@
   "info": {
     "singularName": "course",
     "pluralName": "courses",
-    "displayName": "Course"
+    "displayName": "Course",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -28,6 +29,39 @@
       "relation": "manyToOne",
       "target": "api::vacation.vacation",
       "inversedBy": "courses"
+    },
+    "mesure": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mesure.mesure",
+      "mappedBy": "course"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "CANCELED",
+        "AFFECTED",
+        "DRAFT",
+        "FINISH"
+      ]
+    },
+    "objectif": {
+      "type": "integer"
+    },
+    "service": {
+      "type": "string"
+    },
+    "hd": {
+      "type": "datetime"
+    },
+    "ha": {
+      "type": "datetime"
+    },
+    "placeDeparture": {
+      "type": "string"
+    },
+    "placeArrival": {
+      "type": "string"
     }
   }
 }

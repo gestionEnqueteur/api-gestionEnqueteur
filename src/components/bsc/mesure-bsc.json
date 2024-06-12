@@ -1,7 +1,8 @@
 {
   "collectionName": "components_bsc_mesure_bscs",
   "info": {
-    "displayName": "MesureBsc"
+    "displayName": "MesureBsc",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -33,6 +34,12 @@
     },
     "retardArrive": {
       "type": "integer"
+    },
+    "gareMonte": {
+      "type": "string"
+    },
+    "gareDescente": {
+      "type": "string"
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_bsc_mesure_tests",
+  "info": {
+    "displayName": "MesureTest"
+  },
+  "options": {},
+  "attributes": {
+    "fieldTest": {
+      "type": "string"
+    }
+  }
+}

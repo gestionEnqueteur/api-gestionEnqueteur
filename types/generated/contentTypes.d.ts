@@ -362,6 +362,134 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
+  info: {
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'Course';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    mission: Attribute.String;
+    trainCourse: Attribute.String;
+    commentaire: Attribute.Text;
+    ligne: Attribute.String;
+    vacation: Attribute.Relation<
+      'api::course.course',
+      'manyToOne',
+      'api::vacation.vacation'
+    >;
+    mesure: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'api::mesure.mesure'
+    >;
+    status: Attribute.Enumeration<['CANCELED', 'AFFECTED', 'DRAFT', 'FINISH']>;
+    objectif: Attribute.Integer;
+    service: Attribute.String;
+    hd: Attribute.DateTime;
+    ha: Attribute.DateTime;
+    placeDeparture: Attribute.String;
+    placeArrival: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMesureMesure extends Schema.CollectionType {
+  collectionName: 'mesures';
+  info: {
+    singularName: 'mesure';
+    pluralName: 'mesures';
+    displayName: 'Mesure';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    mesure: Attribute.DynamicZone<['bsc.mesure-bsc', 'bsc.mesure-test']>;
+    course: Attribute.Relation<
+      'api::mesure.mesure',
+      'oneToOne',
+      'api::course.course'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::mesure.mesure',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::mesure.mesure',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiVacationVacation extends Schema.CollectionType {
+  collectionName: 'vacations';
+  info: {
+    singularName: 'vacation';
+    pluralName: 'vacations';
+    displayName: 'Vacation';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    pds: Attribute.String;
+    courses: Attribute.Relation<
+      'api::vacation.vacation',
+      'oneToMany',
+      'api::course.course'
+    >;
+    user: Attribute.Relation<
+      'api::vacation.vacation',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    vac: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::vacation.vacation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::vacation.vacation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -788,120 +916,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCourseCourse extends Schema.CollectionType {
-  collectionName: 'courses';
-  info: {
-    singularName: 'course';
-    pluralName: 'courses';
-    displayName: 'Course';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    mission: Attribute.String;
-    trainCourse: Attribute.String;
-    commentaire: Attribute.Text;
-    ligne: Attribute.String;
-    vacation: Attribute.Relation<
-      'api::course.course',
-      'manyToOne',
-      'api::vacation.vacation'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiMesureMesure extends Schema.SingleType {
-  collectionName: 'mesures';
-  info: {
-    singularName: 'mesure';
-    pluralName: 'mesures';
-    displayName: 'Mesure';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    mesure: Attribute.DynamicZone<['bsc.mesure-bsc']>;
-    course: Attribute.Relation<
-      'api::mesure.mesure',
-      'oneToOne',
-      'api::course.course'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::mesure.mesure',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::mesure.mesure',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiVacationVacation extends Schema.CollectionType {
-  collectionName: 'vacations';
-  info: {
-    singularName: 'vacation';
-    pluralName: 'vacations';
-    displayName: 'Vacation';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    pds: Attribute.String;
-    courses: Attribute.Relation<
-      'api::vacation.vacation',
-      'oneToMany',
-      'api::course.course'
-    >;
-    user: Attribute.Relation<
-      'api::vacation.vacation',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    vac: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::vacation.vacation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::vacation.vacation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -912,6 +926,9 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::course.course': ApiCourseCourse;
+      'api::mesure.mesure': ApiMesureMesure;
+      'api::vacation.vacation': ApiVacationVacation;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -920,9 +937,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::course.course': ApiCourseCourse;
-      'api::mesure.mesure': ApiMesureMesure;
-      'api::vacation.vacation': ApiVacationVacation;
     }
   }
 }
