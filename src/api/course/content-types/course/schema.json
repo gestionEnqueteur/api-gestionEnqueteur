@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "courses",
+  "info": {
+    "singularName": "course",
+    "pluralName": "courses",
+    "displayName": "Course",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mission": {
+      "type": "string"
+    },
+    "trainCourse": {
+      "type": "string"
+    },
+    "commentaire": {
+      "type": "text"
+    },
+    "ligne": {
+      "type": "string"
+    },
+    "vacation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::vacation.vacation",
+      "inversedBy": "courses"
+    },
+    "mesure": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mesure.mesure",
+      "mappedBy": "course"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "CANCELED",
+        "AFFECTED",
+        "DRAFT",
+        "FINISH"
+      ]
+    },
+    "objectif": {
+      "type": "integer"
+    },
+    "service": {
+      "type": "string"
+    },
+    "hd": {
+      "type": "datetime"
+    },
+    "ha": {
+      "type": "datetime"
+    },
+    "placeDeparture": {
+      "type": "string"
+    },
+    "placeArrival": {
+      "type": "string"
+    }
+  }
+}
