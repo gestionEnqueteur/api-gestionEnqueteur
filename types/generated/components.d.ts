@@ -1,6 +1,6 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface BscMesureBsc extends Schema.Component {
+export interface MesureMesureBsc extends Schema.Component {
   collectionName: 'components_bsc_mesure_bscs';
   info: {
     displayName: 'MesureBsc';
@@ -20,21 +20,10 @@ export interface BscMesureBsc extends Schema.Component {
   };
 }
 
-export interface BscMesureTest extends Schema.Component {
-  collectionName: 'components_bsc_mesure_tests';
-  info: {
-    displayName: 'MesureTest';
-  };
-  attributes: {
-    fieldTest: Attribute.String;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'bsc.mesure-bsc': BscMesureBsc;
-      'bsc.mesure-test': BscMesureTest;
+      'mesure.mesure-bsc': MesureMesureBsc;
     }
   }
 }

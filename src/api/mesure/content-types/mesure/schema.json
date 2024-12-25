@@ -15,8 +15,7 @@
     "mesure": {
       "type": "dynamiczone",
       "components": [
-        "bsc.mesure-bsc",
-        "bsc.mesure-test"
+        "mesure.mesure-bsc"
       ]
     },
     "course": {

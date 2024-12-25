@@ -425,7 +425,7 @@ export interface ApiMesureMesure extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    mesure: Attribute.DynamicZone<['bsc.mesure-bsc', 'bsc.mesure-test']>;
+    mesure: Attribute.DynamicZone<['mesure.mesure-bsc']>;
     course: Attribute.Relation<
       'api::mesure.mesure',
       'oneToOne',
