@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      =  env("DATABASE_URL")
+}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  username String
+  vacation Vacation[]
+  password String @ignore
+  confirmed Boolean
+  blocked Boolean
+  roles String[]
+  expoPushToken String
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model Vacation {
+  id Int @id @default(autoincrement())
+  pds String?
+  vac String?
+  courses Course[]
+  user User @relation(fields: [userID], references: [id])
+  userID Int
+  createdAd DateTime
+  updatedAt DateTime
+}
+
+model Course {
+  id Int @id @default(autoincrement())
+  mission String
+  trainCourse String
+  commentaire String?
+  ligne String?
+  objectif Int?
+  service String?
+  hd DateTime
+  ha DateTime
+  departureTimeOrigin DateTime
+  arrivalTimeTerminus DateTime
+  placeDeparture String
+  placeArrival String
+  vacation Vacation @relation(fields: [vacationId], references: [id])
+  vacationId Int
+  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesureId Int
+  createdAt DateTime
+  updatadAt DateTime
+}
+
+model Mesure {
+  id Int @id @default(autoincrement())
+  course Course[]
+  type TypeMesure
+  mesureBsc MesureBsc?
+  mesureMq MesureMQ?
+  createAt DateTime
+  updatedAt DateTime
+}
+
+model MesureBsc {
+  id Int @id @default(autoincrement())
+  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesureId Int @unique
+  composition String
+  numMaterial String
+  distrbutedQuestionnaire Int
+  emptyQuestionnaire Int
+  invalidQuestionnaire Int
+  validQuestionnnaire Int 
+  lateDeparture Int
+  lateArrived Int
+  departureStation String
+  arrivalStation String
+}
+
+model MesureMQ {
+  id Int @id @default(autoincrement())
+  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesureId Int @unique
+  mileage Int
+  numberPlate String
+  busBrand String
+  driverBadge Boolean
+  usb Boolean
+  onBoardConfort Boolean
+  ticketCheck Boolean
+  applicationLocaliTER Boolean
+  destinationDisplay Boolean
+  routeIndicator Boolean
+  wheelchairRamp Boolean
+  busLoad Boolean
+  outdoorCleanliness Boolean
+  intdoorCleanliness Boolean
+  intdoorState Boolean
+  outdoorState Boolean
+  ontimeDeparture Boolean
+  itinerary Boolean
+  availabilityAtThePlatform Boolean
+  commercialBehavior Boolean
+  uniform Boolean
+  drivingBehavior Boolean
+  comment String
+}
+
+enum TypeMesure {
+  BSC
+  MQ
+}
