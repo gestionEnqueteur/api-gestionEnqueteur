@@ -24,8 +24,8 @@ model User {
   blocked Boolean
   roles String[]
   expoPushToken String
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Vacation {
@@ -35,8 +35,8 @@ model Vacation {
   courses Course[]
   user User @relation(fields: [userID], references: [id])
   userID Int
-  createdAd DateTime
-  updatedAt DateTime
+  createdAd DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Course {
@@ -49,16 +49,16 @@ model Course {
   service String?
   hd DateTime
   ha DateTime
-  departureTimeOrigin DateTime
-  arrivalTimeTerminus DateTime
+  departureTimeOrigin DateTime?
+  arrivalTimeTerminus DateTime?
   placeDeparture String
   placeArrival String
   vacation Vacation @relation(fields: [vacationId], references: [id])
   vacationId Int
-  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesure Mesure? @relation(fields: [mesureId], references: [id])
   mesureId Int
-  createdAt DateTime
-  updatadAt DateTime
+  createdAt DateTime @default(now())
+  updatadAt DateTime @updatedAt
 }
 
 model Mesure {
@@ -67,8 +67,8 @@ model Mesure {
   type TypeMesure
   mesureBsc MesureBsc?
   mesureMq MesureMQ?
-  createAt DateTime
-  updatedAt DateTime
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model MesureBsc {
