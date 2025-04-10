@@ -1,6 +1,7 @@
-import { Prisma } from "@prisma/client";
+import { $Enums, Prisma } from "@prisma/client";
 
 export class CreateCourseDto implements Prisma.CourseCreateInput {
+    status: $Enums.StatusCourse;
     mission: string;
     trainCourse: string;
     commentaire?: string | null | undefined;

@@ -5,11 +5,11 @@ import { CoursesModule } from './courses/courses.module';
 import { MesuresModule } from './mesures/mesures.module';
 import { VacationsModule } from './vacations/vacations.module';
 import { UsersModule } from './users/users.module';
-import { PrismaService } from './prisma.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [CoursesModule, MesuresModule, VacationsModule, UsersModule],
+  imports: [CoursesModule, MesuresModule, VacationsModule, UsersModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService],
 })
 export class AppModule {}
