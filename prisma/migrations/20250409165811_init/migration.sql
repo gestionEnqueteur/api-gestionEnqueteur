@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "TypeMesure" AS ENUM ('BSC', 'MQ');
 
+-- CreateEnum
+CREATE TYPE "StatusCourse" AS ENUM ('DRAFT', 'AFFECTED', 'CANCELED', 'TERMINED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -22,7 +25,7 @@ CREATE TABLE "Vacation" (
     "id" SERIAL NOT NULL,
     "pds" TEXT,
     "vac" TEXT,
-    "userID" INTEGER NOT NULL,
+    "userID" INTEGER,
     "createdAd" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -40,12 +43,13 @@ CREATE TABLE "Course" (
     "service" TEXT,
     "hd" TIMESTAMP(3) NOT NULL,
     "ha" TIMESTAMP(3) NOT NULL,
+    "status" "StatusCourse" NOT NULL,
     "departureTimeOrigin" TIMESTAMP(3),
     "arrivalTimeTerminus" TIMESTAMP(3),
     "placeDeparture" TEXT NOT NULL,
     "placeArrival" TEXT NOT NULL,
-    "vacationId" INTEGER NOT NULL,
-    "mesureId" INTEGER NOT NULL,
+    "vacationId" INTEGER,
+    "mesureId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatadAt" TIMESTAMP(3) NOT NULL,
 
@@ -115,19 +119,22 @@ CREATE TABLE "MesureMQ" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "MesureBsc_mesureId_key" ON "MesureBsc"("mesureId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "MesureMQ_mesureId_key" ON "MesureMQ"("mesureId");
 
 -- AddForeignKey
-ALTER TABLE "Vacation" ADD CONSTRAINT "Vacation_userID_fkey" FOREIGN KEY ("userID") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vacation" ADD CONSTRAINT "Vacation_userID_fkey" FOREIGN KEY ("userID") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_vacationId_fkey" FOREIGN KEY ("vacationId") REFERENCES "Vacation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Course" ADD CONSTRAINT "Course_vacationId_fkey" FOREIGN KEY ("vacationId") REFERENCES "Vacation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Course" ADD CONSTRAINT "Course_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MesureBsc" ADD CONSTRAINT "MesureBsc_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
