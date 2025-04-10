@@ -1,1 +1,23 @@
-export class User {}
+import { Prisma, User } from "@prisma/client";
+import { Exclude } from 'class-transformer'
+export class UserEntity {
+
+  @Exclude()
+  password: string;
+  updatedAt: Date; 
+  createdAt: Date;
+  email: string;
+  username: string;
+  confirmed: boolean;
+  blocked: boolean;
+  roles?: string[] | Prisma.UserCreaterolesInput | undefined;
+  @Exclude()
+  expoPushToken: string;
+  vacation?: Prisma.VacationCreateNestedManyWithoutUserInput | undefined;
+
+  constructor(partial: Partial<UserEntity>) {
+    Object.assign(this, partial); 
+  }
+
+
+}
