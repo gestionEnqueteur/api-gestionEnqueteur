@@ -1,17 +1,18 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
+import { AuthUser } from './interfaces/auth-user.interface';
 
 @Injectable()
 export class AuthService {
     constructor(private usersService: UsersService, private jwtService: JwtService) { }
-
-    async signIn(username: string, pass: string): Promise<any> {
-        const user = await this.usersService.findOne(username);
+    // login simple from scratch
+    async signIn(username: string, pass: string) {
+        const user = await this.usersService.findOneByUsername(username);
         if (user?.password !== pass)
             throw new UnauthorizedException();
 
-        const { password, ...result } = user;
+        const { password, expoPushToken, ...result } = user;
 
         const payload = { sub: user.id, username: user.username };
         return {
@@ -19,20 +20,34 @@ export class AuthService {
             user: result
         }
     }
-
-    async validateUser(username: string, pass: string): Promise<any> {
-        const user = await this.usersService.findOne(username); 
+    // utilisé par la strategy local.strategy pour le login 
+    async validateUser(username: string, pass: string) {
+        const user = await this.usersService.findOneByUsername(username);
         if (user && user.password === pass) {
-            const { password, ...result } = user; 
-            return result;  
+            const { password, expoPushToken, ...result } = user;
+            return result;
         }
-        return null; 
+        return null;
     }
 
-    async login(user: any) {
-        const payload = { username: user.username, sub: user.id }; 
+    // login version Passpost, le guard va renseigné user directement 
+    async login(user: AuthUser) {
+        const payload = { username: user.username, sub: user.id };
         return {
-            access_token: this.jwtService.sign(payload), 
+            access_token: this.jwtService.sign(payload),
         }
     }
+
+    async loginApp(user: AuthUser, expoPushToken: string) {
+        console.log(`le token est : ${expoPushToken}`)
+        if (!expoPushToken)
+            throw new BadRequestException({}, "Token ExpoPush missing"); 
+
+        //TODO: plus tard, ajouter une vérification de expoPushToken
+
+        this.usersService.update(+user.id, { expoPushToken: expoPushToken})
+        return this.login(user);
+    }
+
+
 }

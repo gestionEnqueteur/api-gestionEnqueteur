@@ -21,18 +21,6 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Vacation" (
-    "id" SERIAL NOT NULL,
-    "pds" TEXT,
-    "vac" TEXT,
-    "userID" INTEGER,
-    "createdAd" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Vacation_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Course" (
     "id" SERIAL NOT NULL,
     "mission" TEXT NOT NULL,
@@ -48,8 +36,10 @@ CREATE TABLE "Course" (
     "arrivalTimeTerminus" TIMESTAMP(3),
     "placeDeparture" TEXT NOT NULL,
     "placeArrival" TEXT NOT NULL,
-    "vacationId" INTEGER,
     "mesureId" INTEGER,
+    "pds" TEXT,
+    "vac" TEXT,
+    "affectationId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatadAt" TIMESTAMP(3) NOT NULL,
 
@@ -128,13 +118,10 @@ CREATE UNIQUE INDEX "MesureBsc_mesureId_key" ON "MesureBsc"("mesureId");
 CREATE UNIQUE INDEX "MesureMQ_mesureId_key" ON "MesureMQ"("mesureId");
 
 -- AddForeignKey
-ALTER TABLE "Vacation" ADD CONSTRAINT "Vacation_userID_fkey" FOREIGN KEY ("userID") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_vacationId_fkey" FOREIGN KEY ("vacationId") REFERENCES "Vacation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Course" ADD CONSTRAINT "Course_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Course" ADD CONSTRAINT "Course_affectationId_fkey" FOREIGN KEY ("affectationId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MesureBsc" ADD CONSTRAINT "MesureBsc_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

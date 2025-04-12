@@ -1,11 +1,9 @@
-import { Prisma, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Exclude } from 'class-transformer'
 export class UserEntity {
 
   @Exclude()
   password: string;
-  updatedAt: Date; 
-  createdAt: Date;
   email: string;
   username: string;
   confirmed: boolean;
@@ -16,7 +14,7 @@ export class UserEntity {
   vacation?: Prisma.VacationCreateNestedManyWithoutUserInput | undefined;
 
   constructor(partial: Partial<UserEntity>) {
-    Object.assign(this, partial); 
+    Object.assign(this, partial);
   }
 
 
