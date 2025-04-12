@@ -11,7 +11,6 @@ export class UserEntity {
   roles?: string[] | Prisma.UserCreaterolesInput | undefined;
   @Exclude()
   expoPushToken: string;
-  vacation?: Prisma.VacationCreateNestedManyWithoutUserInput | undefined;
 
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);

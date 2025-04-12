@@ -6,6 +6,9 @@ import { Request } from 'express';
 import { AuthUser } from './interfaces/auth-user.interface';
 import { plainToInstance } from 'class-transformer';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { Roles } from './roles.decorator';
+import { Role } from './role.enum';
+import { RolesGuard } from './roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -34,7 +37,8 @@ export class AuthController {
 	}
 
 	// route protégé par le guard
-	@UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@Roles(Role.Admin)
 	@Get('profile')
 	getProfile(@Req() req) {
 		console.log(req.user);
