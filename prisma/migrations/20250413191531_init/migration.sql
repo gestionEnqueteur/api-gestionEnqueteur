@@ -13,7 +13,7 @@ CREATE TABLE "User" (
     "confirmed" BOOLEAN NOT NULL,
     "blocked" BOOLEAN NOT NULL,
     "roles" TEXT[],
-    "expoPushToken" TEXT NOT NULL,
+    "expoPushToken" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

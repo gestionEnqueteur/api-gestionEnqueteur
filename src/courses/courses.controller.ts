@@ -40,7 +40,7 @@ export class CoursesController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try {
-      return this.coursesService.remove(+id);
+      return await this.coursesService.remove(+id);
     } catch (error) {
       throw new BadRequestException(error); 
     }

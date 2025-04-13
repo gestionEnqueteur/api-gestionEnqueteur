@@ -23,7 +23,7 @@ model User {
   confirmed Boolean
   blocked Boolean
   roles String[]
-  expoPushToken String
+  expoPushToken String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

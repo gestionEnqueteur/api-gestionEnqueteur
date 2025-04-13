@@ -9,13 +9,13 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
   async findAll() {
     try {
-      return this.usersService.findAll();
+      return await this.usersService.findAll();
     }
     catch (error) {
       throw new BadRequestException(error);
@@ -43,7 +43,7 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try {
-      return this.usersService.remove(+id);
+      return await this.usersService.remove(+id);
     } catch (error) {
       throw new BadRequestException(error); 
     }
