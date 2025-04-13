@@ -23,7 +23,7 @@ model User {
   confirmed Boolean
   blocked Boolean
   roles String[]
-  expoPushToken String
+  expoPushToken String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -44,8 +44,8 @@ model Course {
   arrivalTimeTerminus DateTime?
   placeDeparture String
   placeArrival String
-  mesure Mesure? @relation(fields: [mesureId], references: [id])
-  mesureId Int?
+  mesure Mesure[]
+  mesureId Int? @unique
   pds String?
   vac String?
   affectation User? @relation(fields: [affectationId], references: [id])
@@ -56,9 +56,11 @@ model Course {
 
 model Mesure {
   id Int @id @default(autoincrement())
-  course Course[]
+  course Course @relation(fields: [courseId], references: [id])
+  courseId Int
   type TypeMesure
-  mesureBsc MesureBsc?
+  isCurrent Boolean @default(true)
+  mesureBsc MesureBsc? 
   mesureMq MesureMQ?
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -68,16 +70,16 @@ model MesureBsc {
   id Int @id @default(autoincrement())
   mesure Mesure @relation(fields: [mesureId], references: [id])
   mesureId Int @unique
-  composition String
-  numMaterial String
-  distrbutedQuestionnaire Int
-  emptyQuestionnaire Int
-  invalidQuestionnaire Int
-  validQuestionnnaire Int 
-  lateDeparture Int
-  lateArrived Int
-  departureStation String
-  arrivalStation String
+  composition String?
+  numMaterial String? 
+  distrbutedQuestionnaire Int?
+  emptyQuestionnaire Int?
+  invalidQuestionnaire Int?
+  validQuestionnnaire Int?
+  lateDeparture Int?
+  lateArrived Int?
+  departureStation String?
+  arrivalStation String?
 }
 
 model MesureMQ {

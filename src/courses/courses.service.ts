@@ -17,7 +17,15 @@ export class CoursesService {
   }
 
   async findAll() {
-    const courses: Course[] = await this.prisma.course.findMany(); 
+    const courses: Course[] = await this.prisma.course.findMany({
+      include: {
+        mesure: {
+          where: {
+            isCurrent: true
+          }
+        }
+      }
+    }); 
     return courses;
   }
 
@@ -25,6 +33,13 @@ export class CoursesService {
     const course: Course | null = await this.prisma.course.findFirst({
       where: {
         id: id
+      }, 
+      include: {
+        mesure: {
+          where: {
+            isCurrent: true
+          }
+        }
       }
     })
     return course
@@ -35,7 +50,14 @@ export class CoursesService {
       where: {
         id: id
       }, 
-      data: updateCourseDto
+      data: updateCourseDto, 
+      include: {
+        mesure: {
+          where: {
+            isCurrent: true
+          }
+        }
+      }
     })
     return updateCourse
   }

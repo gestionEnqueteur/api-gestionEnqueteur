@@ -4,20 +4,20 @@ export class CreateCourseDto implements Prisma.CourseCreateInput {
     status: $Enums.StatusCourse;
     mission: string;
     trainCourse: string;
-    commentaire?: string | null | undefined;
-    ligne?: string | null | undefined;
-    objectif?: number | null | undefined;
-    service?: string | null | undefined;
+    commentaire?: string | null;
+    ligne?: string | null;
+    objectif?: number | null;
+    service?: string | null;
     hd: string | Date;
     ha: string | Date;
-    departureTimeOrigin?: string | Date | null | undefined;
-    arrivalTimeTerminus?: string | Date | null | undefined;
+    departureTimeOrigin?: string | Date | null;
+    arrivalTimeTerminus?: string | Date | null;
     placeDeparture: string;
     placeArrival: string;
-    mesure?: Prisma.MesureCreateNestedOneWithoutCourseInput | undefined;
-    affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput | undefined;
-    pds?: string | null | undefined;
-    vac?: string | null | undefined;
+    mesure?: Prisma.MesureCreateNestedManyWithoutCourseInput;
+    affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput;
+    pds?: string | null;
+    vac?: string | null;
 }
 
 
