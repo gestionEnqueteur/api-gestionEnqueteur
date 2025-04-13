@@ -1,6 +1,7 @@
-import { Prisma } from "@prisma/client";
+import { $Enums, Prisma } from "@prisma/client";
 
 export class CreateCourseDto implements Prisma.CourseCreateInput {
+    status: $Enums.StatusCourse;
     mission: string;
     trainCourse: string;
     commentaire?: string | null | undefined;
@@ -13,8 +14,10 @@ export class CreateCourseDto implements Prisma.CourseCreateInput {
     arrivalTimeTerminus?: string | Date | null | undefined;
     placeDeparture: string;
     placeArrival: string;
-    vacation: Prisma.VacationCreateNestedOneWithoutCoursesInput;
     mesure?: Prisma.MesureCreateNestedOneWithoutCourseInput | undefined;
+    affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput | undefined;
+    pds?: string | null | undefined;
+    vac?: string | null | undefined;
 }
 
 

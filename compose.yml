@@ -14,4 +14,9 @@ services:
     environment:
       POSTGRES_PASSWORD: randompassword
       POSTGRES_USER: johndoe
+    volumes:
+      - database_data:/var/lib/postgres/data:rw
+
+volumes:
+  database_data:
 
