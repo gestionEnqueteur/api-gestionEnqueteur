@@ -17,7 +17,15 @@ export class CoursesService {
   }
 
   async findAll() {
-    const courses: Course[] = await this.prisma.course.findMany(); 
+    const courses: Course[] = await this.prisma.course.findMany({
+      include: {
+        mesure: {
+          where: {
+            isCurrent: true
+          }
+        }
+      }
+    }); 
     return courses;
   }
 

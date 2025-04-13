@@ -10,34 +10,56 @@ export class MesuresService {
   constructor(private prisma: PrismaService) { }
 
   async create(createMesureDto: CreateMesureDto) {
-    const newMesure: Mesure = await this.prisma.mesure.create({
-      data: createMesureDto
+    const {courseId, mesureBsc, mesureMq, type,  ...mesureData } = createMesureDto; 
+    const requeteSwitchIsCurrentTofalse = this.prisma.mesure.updateMany({
+      data: {
+        isCurrent: false
+      }
+    });
+    const requeteNewMesure = this.prisma.mesure.create({
+      data: {
+        type: type, 
+        isCurrent: true, 
+        course: { connect: {id: courseId}}, 
+        mesureBsc: {
+          create: mesureBsc
+        },
+      }, 
+      include: {
+        mesureBsc: true
+      }
     })
+    const [resultReset, newMesure] = await this.prisma.$transaction([requeteSwitchIsCurrentTofalse, requeteNewMesure]); 
     return newMesure;
   }
 
   async findAll() {
-    const mesures: Mesure[] = await this.prisma.mesure.findMany();
+    const mesures: Mesure[] = await this.prisma.mesure.findMany({
+      where: {
+        isCurrent: true
+      }, 
+      include: {
+        mesureBsc: true
+      }
+    });
     return mesures;
   }
 
   async findOne(id: number) {
     const mesure: Mesure | null = await this.prisma.mesure.findFirst({
       where: {
-        id: id
+        id: id, 
+        isCurrent: true
+      }, 
+      include: {
+        mesureBsc: true
       }
     })
     return mesure;
   }
 
   async update(id: number, updateMesureDto: UpdateMesureDto) {
-    const updatedMesure: Mesure = await this.prisma.mesure.update({
-      where: {
-        id: id
-      },
-      data: updateMesureDto
-    });
-    return updatedMesure;
+    return {message: "Ne pas utiliser le UPDATE"};
   }
 
   async remove(id: number) {

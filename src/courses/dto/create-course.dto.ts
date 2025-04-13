@@ -14,7 +14,7 @@ export class CreateCourseDto implements Prisma.CourseCreateInput {
     arrivalTimeTerminus?: string | Date | null | undefined;
     placeDeparture: string;
     placeArrival: string;
-    mesure?: Prisma.MesureCreateNestedOneWithoutCourseInput | undefined;
+    mesure?: Prisma.MesureCreateNestedManyWithoutCourseInput | undefined;
     affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput | undefined;
     pds?: string | null | undefined;
     vac?: string | null | undefined;

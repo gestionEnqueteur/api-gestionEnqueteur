@@ -49,7 +49,9 @@ CREATE TABLE "Course" (
 -- CreateTable
 CREATE TABLE "Mesure" (
     "id" SERIAL NOT NULL,
+    "courseId" INTEGER NOT NULL,
     "type" "TypeMesure" NOT NULL,
+    "isCurrent" BOOLEAN NOT NULL DEFAULT true,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -60,16 +62,16 @@ CREATE TABLE "Mesure" (
 CREATE TABLE "MesureBsc" (
     "id" SERIAL NOT NULL,
     "mesureId" INTEGER NOT NULL,
-    "composition" TEXT NOT NULL,
-    "numMaterial" TEXT NOT NULL,
-    "distrbutedQuestionnaire" INTEGER NOT NULL,
-    "emptyQuestionnaire" INTEGER NOT NULL,
-    "invalidQuestionnaire" INTEGER NOT NULL,
-    "validQuestionnnaire" INTEGER NOT NULL,
-    "lateDeparture" INTEGER NOT NULL,
-    "lateArrived" INTEGER NOT NULL,
-    "departureStation" TEXT NOT NULL,
-    "arrivalStation" TEXT NOT NULL,
+    "composition" TEXT,
+    "numMaterial" TEXT,
+    "distrbutedQuestionnaire" INTEGER,
+    "emptyQuestionnaire" INTEGER,
+    "invalidQuestionnaire" INTEGER,
+    "validQuestionnnaire" INTEGER,
+    "lateDeparture" INTEGER,
+    "lateArrived" INTEGER,
+    "departureStation" TEXT,
+    "arrivalStation" TEXT,
 
     CONSTRAINT "MesureBsc_pkey" PRIMARY KEY ("id")
 );
@@ -112,16 +114,19 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Course_mesureId_key" ON "Course"("mesureId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "MesureBsc_mesureId_key" ON "MesureBsc"("mesureId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "MesureMQ_mesureId_key" ON "MesureMQ"("mesureId");
 
 -- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Course" ADD CONSTRAINT "Course_affectationId_fkey" FOREIGN KEY ("affectationId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_affectationId_fkey" FOREIGN KEY ("affectationId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Mesure" ADD CONSTRAINT "Mesure_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MesureBsc" ADD CONSTRAINT "MesureBsc_mesureId_fkey" FOREIGN KEY ("mesureId") REFERENCES "Mesure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
