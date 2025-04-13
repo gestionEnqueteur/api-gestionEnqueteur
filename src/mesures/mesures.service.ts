@@ -12,6 +12,9 @@ export class MesuresService {
   async create(createMesureDto: CreateMesureDto) {
     const {courseId, mesureBsc, mesureMq, type,  ...mesureData } = createMesureDto; 
     const requeteSwitchIsCurrentTofalse = this.prisma.mesure.updateMany({
+      where: {
+        courseId: courseId
+      },
       data: {
         isCurrent: false
       }
@@ -49,7 +52,6 @@ export class MesuresService {
     const mesure: Mesure | null = await this.prisma.mesure.findFirst({
       where: {
         id: id, 
-        isCurrent: true
       }, 
       include: {
         mesureBsc: true

@@ -1,34 +1,48 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(private readonly coursesService: CoursesService) { }
 
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.coursesService.create(createCourseDto);
+  async create(@Body() createCourseDto: CreateCourseDto) {
+    try {
+      return await this.coursesService.create(createCourseDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.coursesService.findAll();
+  async findAll() {
+    return await this.coursesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const course = await this.coursesService.findOne(+id);
+    if (!course)
+      throw new NotFoundException();
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.coursesService.update(+id, updateCourseDto);
+  async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+    try {
+      return await this.coursesService.update(+id, updateCourseDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return this.coursesService.remove(+id);
+    } catch (error) {
+      throw new BadRequestException(error); 
+    }
   }
 }

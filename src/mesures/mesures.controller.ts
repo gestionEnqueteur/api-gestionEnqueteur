@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
 import { MesuresService } from './mesures.service';
 import { CreateMesureDto } from './dto/create-mesure.dto';
 import { UpdateMesureDto } from './dto/update-mesure.dto';
+import { Mesure } from '@prisma/client';
 
 @Controller('mesures')
 export class MesuresController {
-  constructor(private readonly mesuresService: MesuresService) {}
+  constructor(private readonly mesuresService: MesuresService) { }
 
   @Post()
-  create(@Body() createMesureDto: CreateMesureDto) {
-    return this.mesuresService.create(createMesureDto);
+  async create(@Body() createMesureDto: CreateMesureDto) {
+    try {
+      return await this.mesuresService.create(createMesureDto);
+    }
+    catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Get()
@@ -18,17 +24,29 @@ export class MesuresController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mesuresService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const mesure: Mesure | null = await this.mesuresService.findOne(+id);
+    if (!mesure)
+      throw new NotFoundException();
+
+    return mesure
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMesureDto: UpdateMesureDto) {
-    return this.mesuresService.update(+id, updateMesureDto);
+  async update(@Param('id') id: string, @Body() updateMesureDto: UpdateMesureDto) {
+    try {
+      return await this.mesuresService.update(+id, updateMesureDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mesuresService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.mesuresService.remove(+id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }
