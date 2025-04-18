@@ -1,23 +1,56 @@
-import { $Enums, Prisma } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { $Enums, Prisma } from '@prisma/client';
 
 export class CreateCourseDto implements Prisma.CourseCreateInput {
-    status: $Enums.StatusCourse;
-    mission: string;
-    trainCourse: string;
-    commentaire?: string | null;
-    ligne?: string | null;
-    objectif?: number | null;
-    service?: string | null;
-    hd: string | Date;
-    ha: string | Date;
-    departureTimeOrigin?: string | Date | null;
-    arrivalTimeTerminus?: string | Date | null;
-    placeDeparture: string;
-    placeArrival: string;
-    mesure?: Prisma.MesureCreateNestedManyWithoutCourseInput;
-    affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput;
-    pds?: string | null;
-    vac?: string | null;
-}
+  @ApiProperty({ enum: ['DRAFT', 'AFFECTED', 'CANCELED', 'TERMINED'] })
+  status: $Enums.StatusCourse;
 
+  @ApiProperty()
+  mission: string;
+
+  @ApiProperty()
+  trainCourse: string;
+
+  @ApiProperty({ required: false, nullable: true })
+  commentaire?: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  ligne?: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  objectif?: number | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  service?: string | null;
+
+  @ApiProperty()
+  hd: string | Date;
+
+  @ApiProperty()
+  ha: string | Date;
+
+  @ApiProperty({ required: false, nullable: true })
+  departureTimeOrigin?: string | Date | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  arrivalTimeTerminus?: string | Date | null;
+
+  @ApiProperty()
+  placeDeparture: string;
+
+  @ApiProperty()
+  placeArrival: string;
+
+  @ApiProperty({ required: false, nullable: true })
+  mesure?: Prisma.MesureCreateNestedManyWithoutCourseInput;
+
+  @ApiProperty({ required: false, nullable: true })
+  affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput;
+
+  @ApiProperty({ required: false, nullable: true })
+  pds?: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  vac?: string | null;
+}
 
