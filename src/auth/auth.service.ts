@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { AuthUser } from './interfaces/auth-user.interface';
+import Expo from 'expo-server-sdk';
 
 @Injectable()
 export class AuthService {
@@ -43,7 +44,9 @@ export class AuthService {
         if (!expoPushToken)
             throw new BadRequestException({}, "Token ExpoPush missing"); 
 
-        //TODO: plus tard, ajouter une vérification de expoPushToken
+        if (!Expo.isExpoPushToken(expoPushToken)) {
+            throw new BadRequestException({}, "Push token is not a valid Expo push token"); 
+        }
 
         this.usersService.update(+user.id, { expoPushToken: expoPushToken})
         return this.login(user);
