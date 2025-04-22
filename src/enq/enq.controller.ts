@@ -1,16 +1,22 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { StatusCourse } from '@prisma/client';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { StatusCourse, User } from '@prisma/client';
+import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateMesureDto } from 'src/mesures/dto/create-mesure.dto';
+import { MesuresService } from 'src/mesures/mesures.service';
 import { PrismaService } from 'src/prisma.service';
 
 @Controller('enq')
 export class EnqController {
 
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly mesureService: MesuresService
+  ) { }
 
   @UseGuards(JwtAuthGuard)
   @Get('courses')
-  async findAll(@Req() req) {
+  async findAll(@Req() req: Request & { user: User}) {
 
     const courses = await this.prismaService.course.findMany({
       where: {
@@ -18,10 +24,12 @@ export class EnqController {
         status: StatusCourse.AFFECTED
       }
     })
-
-    return courses; 
-
+    return courses;
   }
 
-
+  @UseGuards(JwtAuthGuard)
+  @Post('mesures')
+  async createMesure(@Body() createMesureDTO: CreateMesureDto) {
+    return await this.mesureService.create(createMesureDTO)
+  }
 }

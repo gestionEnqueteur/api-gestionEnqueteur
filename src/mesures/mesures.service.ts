@@ -19,7 +19,7 @@ export class MesuresService {
         isCurrent: false
       }
     });
-    const requeteNewMesure = this.prisma.mesure.create({
+    const requeteNewMesureBsc = this.prisma.mesure.create({
       data: {
         type: type, 
         isCurrent: true, 
@@ -32,8 +32,17 @@ export class MesuresService {
         mesureBsc: true
       }
     })
-    const [resultReset, newMesure] = await this.prisma.$transaction([requeteSwitchIsCurrentTofalse, requeteNewMesure]); 
-    return newMesure;
+
+    switch ( type ) {
+      case 'BSC': 
+        const [resultReset, newMesure] = await this.prisma.$transaction([requeteSwitchIsCurrentTofalse, requeteNewMesureBsc]);
+        return newMesure; 
+      case 'MQ':
+        throw new Error("Not implemented"); 
+      default: 
+        throw new Error("Type invalid");  
+
+    }
   }
 
   async findAll() {
