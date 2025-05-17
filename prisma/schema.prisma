@@ -68,7 +68,7 @@ model Mesure {
 
 model MesureBsc {
   id Int @id @default(autoincrement())
-  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesure Mesure @relation(fields: [mesureId], references: [id], onDelete: Cascade)
   mesureId Int @unique
   composition String?
   numMaterial String? 
@@ -84,7 +84,7 @@ model MesureBsc {
 
 model MesureMQ {
   id Int @id @default(autoincrement())
-  mesure Mesure @relation(fields: [mesureId], references: [id])
+  mesure Mesure @relation(fields: [mesureId], references: [id], onDelete: Cascade)
   mesureId Int @unique
   mileage Int
   numberPlate String
