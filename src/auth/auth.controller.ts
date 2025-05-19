@@ -26,7 +26,7 @@ export class AuthController {
 	// guard qui gere le login, intercepté par la guard de passport
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
-	@ApiBody({ schema: { type: "object", required: ["user"], properties: { "user": { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: [ "username", "id"] }}}})
+	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: ["username", "id"] }})
 	async login(@Req() req: AuthenticatedRequest ) { 
 		console.log(req.user); 
 		return this.authService.login(req.user); 
@@ -35,7 +35,7 @@ export class AuthController {
 	// login with send expoPushToken to app mobile
 	@UseGuards(LocalAuthGuard)
   @Post('loginApp')
-	@ApiBody({ schema: { type: "object", required: ["user"], properties: { "user": { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }, "expoPushToken": { type: "string" }}, required: [ "username", "id"] }}}})
+	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" } , "expoPushToken": { type: "string" }}, required: ["username", "id", "expoPushToken"] }})
 	async loginApp(@Req() req, @Body() body) {
 		return this.authService.loginApp(req.user, body.expoPushToken)
 	}
@@ -44,7 +44,7 @@ export class AuthController {
 	@UseGuards(JwtAuthGuard, RolesGuard)
 	@Roles(Role.Admin)
 	@Get('profile')
-	@ApiBody({ schema: { type: "object", required: ["user"], properties: { "user": { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: [ "username", "id"] }}}})
+	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: ["username", "id"] }})
 	getProfile(@Req() req) {
 		console.log(req.user);
 
