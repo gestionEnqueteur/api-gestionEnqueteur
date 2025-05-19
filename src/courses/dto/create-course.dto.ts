@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, Prisma } from '@prisma/client';
+import { CreateMesureDto } from 'src/mesures/dto/create-mesure.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 export class CreateCourseDto implements Prisma.CourseCreateInput {
   @ApiProperty({ enum: ['DRAFT', 'AFFECTED', 'CANCELED', 'TERMINED'] })
@@ -11,28 +14,28 @@ export class CreateCourseDto implements Prisma.CourseCreateInput {
   @ApiProperty()
   trainCourse: string;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   commentaire?: string | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   ligne?: string | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "number", required: false, nullable: true })
   objectif?: number | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   service?: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: "string" })
   hd: string | Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: "string" })
   ha: string | Date;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   departureTimeOrigin?: string | Date | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   arrivalTimeTerminus?: string | Date | null;
 
   @ApiProperty()
@@ -41,16 +44,16 @@ export class CreateCourseDto implements Prisma.CourseCreateInput {
   @ApiProperty()
   placeArrival: string;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: () => CreateMesureDto, required: false, nullable: true })
   mesure?: Prisma.MesureCreateNestedManyWithoutCourseInput;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: () => CreateUserDto, required: false, nullable: true })
   affectation?: Prisma.UserCreateNestedOneWithoutCoursesInput;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   pds?: string | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: "string", required: false, nullable: true })
   vac?: string | null;
 }
 
