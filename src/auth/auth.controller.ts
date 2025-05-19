@@ -9,7 +9,7 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { Roles } from './roles.decorator';
 import { Role } from './role.enum';
 import { RolesGuard } from './roles.guard';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -27,6 +27,7 @@ export class AuthController {
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: ["username", "id"] }})
+	@ApiResponse({ schema: { type: "object", properties: { access_token: { type: "string"}}}})
 	async login(@Req() req: AuthenticatedRequest ) { 
 		console.log(req.user); 
 		return this.authService.login(req.user); 
@@ -36,6 +37,7 @@ export class AuthController {
 	@UseGuards(LocalAuthGuard)
   @Post('loginApp')
 	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" } , "expoPushToken": { type: "string" }}, required: ["username", "id", "expoPushToken"] }})
+	@ApiResponse({ schema: { type: "object", properties: { access_token: { type: "string"}}}})
 	async loginApp(@Req() req, @Body() body) {
 		return this.authService.loginApp(req.user, body.expoPushToken)
 	}
@@ -45,6 +47,7 @@ export class AuthController {
 	@Roles(Role.Admin)
 	@Get('profile')
 	@ApiBody({ schema: { type: "object", properties: { "username": { type: "string" }, "id": { type: "string" }}, required: ["username", "id"] }})
+	@ApiResponse({ type: () => UserEntity})
 	getProfile(@Req() req) {
 		console.log(req.user);
 
