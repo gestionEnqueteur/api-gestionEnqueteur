@@ -13,7 +13,7 @@ export class MesuresService {
 
   constructor(private prisma: PrismaService) { }
 
-  async create(createMesureDto: CreateMesureDto): Promise<MesureWithDetails> {
+  async create(createMesureDto: CreateMesureDto): Promise<Mesure> {
     const {courseId, mesureBsc, mesureMq, type,  ...mesureData } = createMesureDto; 
     const requeteSwitchIsCurrentToFalse = this.prisma.mesure.updateMany({
       where: {
@@ -23,39 +23,30 @@ export class MesuresService {
         isCurrent: false
       }
     });
-
-    const data: Prisma.MesureCreateInput = {
-      ...mesureData,
-      type,
-      isCurrent: true,
-      course: { connect: { id: courseId } },
-    };
-
-    // On ajoute le bon type de mesure
-    if (type === 'BSC' && mesureBsc) {
-      data.mesureBsc = {
-        create: mesureBsc,
-      };
-    } else if (type === 'MQ' && mesureMq) {
-      data.mesureMq = {
-        create: mesureMq,
-      };
-    }
-
-    const requeteNewMesure = this.prisma.mesure.create({
-      data,
+    const requeteNewMesureBsc = this.prisma.mesure.create({
+      data: {
+        type: type, 
+        isCurrent: true, 
+        course: { connect: {id: courseId}}, 
+        mesureBsc: {
+          create: mesureBsc
+        },
+      }, 
       include: {
-        mesureBsc: true,
-        mesureMq: true,
-      },
-    });
+        mesureBsc: true
+      }
+    })
 
-    const [_, newMesure] = await this.prisma.$transaction([
-      requeteSwitchIsCurrentToFalse,
-      requeteNewMesure,
-    ]);
+    switch ( type ) {
+      case 'BSC': 
+        const [resultReset, newMesure] = await this.prisma.$transaction([requeteSwitchIsCurrentToFalse, requeteNewMesureBsc]);
+        return newMesure; 
+      case 'MQ':
+        throw new Error("Not implemented"); 
+      default: 
+        throw new Error("Type invalid");  
 
-    return newMesure;
+    }
   }
 
   async findAll(): Promise<MesureWithDetails[]> {
