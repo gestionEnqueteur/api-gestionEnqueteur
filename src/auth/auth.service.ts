@@ -40,12 +40,11 @@ export class AuthService {
     }
 
     async loginApp(user: AuthUser, expoPushToken: string) {
-        console.log(`le token est : ${expoPushToken}`)
         if (!expoPushToken)
-            throw new BadRequestException({}, "Token ExpoPush missing"); 
+            throw new BadRequestException("Token ExpoPush missing"); 
 
         if (!Expo.isExpoPushToken(expoPushToken)) {
-            throw new BadRequestException({}, "Push token is not a valid Expo push token"); 
+            throw new BadRequestException("Push token is not a valid Expo push token"); 
         }
 
         this.usersService.update(+user.id, { expoPushToken: expoPushToken})
